@@ -1,5 +1,6 @@
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.dates import DateFormatter, DayLocator, HourLocator
 
 def pcolormesh_offset(x,y,z,y_offset, x_pixel_scale = None, vmin = None, vmax = None, **kwargs):
     """
@@ -48,6 +49,15 @@ def pcolormesh_offset(x,y,z,y_offset, x_pixel_scale = None, vmin = None, vmax = 
       
     plt.xlim(x_edges[0], x_edges[-1])
     return
+
+def nice_time_axis(ax=None):
+    if ax is None:
+        ax = plt.gca()
+    ax.xaxis.set_major_locator(DayLocator())
+    ax.xaxis.set_minor_locator(HourLocator([0,3,6,9,12,15,18,21]))
+    ax.xaxis.set_major_formatter(DateFormatter("%Y %b %d"))
+    ax.xaxis.set_minor_formatter(DateFormatter("%H:%M"))
+    ax.get_xaxis().set_tick_params(which='major', pad=10)
 
 def _get_edges(centers):
     centers = np.array(centers)
